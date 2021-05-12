@@ -1,2 +1,2 @@
 # leetcode-racket
-I want to solve leetcode problems by racket.
+I will solve leetcode problems by racket.
