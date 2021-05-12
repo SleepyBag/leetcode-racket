@@ -1,0 +1,17 @@
+(define/contract (two-sum nums target)
+  (-> (listof exact-integer?) exact-integer? (listof exact-integer?))
+    (let ((index (make-hash))
+          (i 0))
+      (car (filter-map
+        (lambda (n)
+          (let ((pair-index (hash-ref index (- target n) #f))
+                (cur-index i))
+            (hash-set! index n i)
+            (set! i (+ 1 i))
+            (if (integer? pair-index) (list pair-index cur-index) #f)
+          )
+        )
+        nums
+      ))
+    )
+  )
