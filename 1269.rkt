@@ -1,0 +1,21 @@
+(define/contract (num-ways steps arrLen)
+  (-> exact-integer? exact-integer? exact-integer?)
+  (define mem (make-hash))
+
+ (define (f step loc)
+   (hash-ref mem (+ (* step 1000) loc)
+     (let ((ans (if (= step 0)
+       (if (= loc 0) 1 0)
+       (if (or (>= loc arrLen) (< loc 0))
+           0
+        (+ (f (- step 1) (- loc 1)) 
+           (f (- step 1) (+ loc 1))
+           (f (- step 1) loc)))
+       )))
+       (hash-set! mem (+ (* step 1000) loc) ans)
+       ans
+       )
+     )
+   )
+ (f steps 0)
+ )
