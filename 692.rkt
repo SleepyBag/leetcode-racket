@@ -1,0 +1,10 @@
+(define/contract (top-k-frequent words k)
+  (-> (listof string?) exact-integer? (listof string?))
+    (define cnt (make-hash))
+    (map (lambda (word) (hash-set! cnt word (if (hash-has-key? cnt word) (add1 (hash-ref cnt word)) 1))) words)
+    (take (sort (hash-keys cnt) (lambda (key1 key2) (let ([cnt1 (hash-ref cnt key1)]
+                                                          [cnt2 (hash-ref cnt key2)]) 
+                                                      (or (> cnt1 cnt2)
+                                                          (and (= cnt1 cnt2)
+                                                               (string<? key1 key2)))))) k)
+  )
