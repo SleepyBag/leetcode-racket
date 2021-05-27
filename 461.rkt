@@ -1,0 +1,5 @@
+(define/contract (hamming-distance x y)
+  (-> exact-integer? exact-integer? exact-integer?)
+  (apply + (map (lambda (c) (if (char=? c #\1) 1 0)) 
+                (string->list (number->string (bitwise-xor x y) 2))))
+)
