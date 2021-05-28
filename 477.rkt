@@ -1,0 +1,12 @@
+(define/contract (total-hamming-distance nums)
+  (-> (listof exact-integer?) exact-integer?)
+     (let ([nums-length (length nums)])
+       (apply + (map
+           (lambda (mask) 
+             (let ([a (apply + (map (lambda (n) (if (= (bitwise-and n mask) 0) 0 1)) nums))])
+               (* a (- nums-length a))
+             )
+           )
+           (map (lambda (i) (arithmetic-shift 1 i)) (range 0 32))
+     )))
+  )
