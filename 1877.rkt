@@ -1,0 +1,6 @@
+(define/contract (is-power-of-four n)
+  (-> exact-integer? boolean?)
+    (and (> n 0)
+         (= n (bitwise-and n (- n)))
+         (not (= (bitwise-and n 1431655765) 0)))
+    )
