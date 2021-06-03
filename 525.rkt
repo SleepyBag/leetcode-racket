@@ -1,20 +1,13 @@
-(define/contract (find-max-length nums)
-  (-> (listof exact-integer?) exact-integer?)
-     (let ([location (make-hash)]
-           [cnt 0]
-           )
-         (hash-set! location 0 -1)
-         (apply max
-                (map (lambda (i n)
-                       (set! cnt (+ cnt (if (= n 1) 1 (- 1))))
-                       (if (hash-has-key? location cnt)
-                           (- i (hash-ref location cnt))
-                           (begin (hash-set! location cnt i)
-                                  0)
-                           ))
-                     (range 0 (length nums))
-                     nums
-                     )
-         )
+(define (find-max-length nums [location (hash 0 0)] [cnt 0] [i 0])
+     (if (null? nums) 0
+       (let* ([n (car nums)]
+              [i (add1 i)]
+              [next-nums (cdr nums)]
+              [cnt (+ cnt (if (= n 1) 1 (- 1)))]
+              [ans (if (hash-has-key? location cnt) (- i (hash-ref location cnt)) 0)]
+              [next-location (if (hash-has-key? location cnt) location (hash-set location cnt i))]
+              )
+         (max ans (find-max-length next-nums next-location cnt i))
+       )
      )
   )
