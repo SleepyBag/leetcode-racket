@@ -1,0 +1,12 @@
+(define (max-length arr [cur ""])
+     (if (null? arr)
+         (if (or (> (string-length cur) 26)
+                 (for/or ([c cur])
+                         (< 1 (length (filter (lambda (i) (char=? i c)) (string->list cur))))))
+             0
+             (string-length cur))
+         (max (max-length (cdr arr) (string-append cur (car arr)))
+              (max-length (cdr arr) cur)
+              )
+         )
+  )
