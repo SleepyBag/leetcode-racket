@@ -1,0 +1,38 @@
+(define/contract (num-buses-to-destination routes source target)
+  (-> (listof (listof exact-integer?)) exact-integer? exact-integer? exact-integer?)
+    (let ([routes (map (lambda (route) (mcons #f route)) routes)]
+          [node-routes (make-hash)])
+      (for ([route routes])
+           (for ([node (mcdr route)])
+                (hash-set! node-routes node (cons route (hash-ref node-routes node '())))
+                )
+           )
+      (let bfs ([node-routes node-routes]
+                [visited (make-vector 1000000 #f)]
+                [nodes (hash source #t)]
+                [target target]
+                [dis 0])
+        (if (hash-empty? nodes) (- 1)
+            (if (hash-has-key? nodes target)
+                dis
+                (let ([next-nodes (make-hash)])
+                  (for ([node (hash-keys nodes)])
+                       (for ([route (hash-ref node-routes node)])
+                            (when (not (mcar route))
+                                  (set-mcar! route #t)
+                                  (for ([neighbor (mcdr route)])
+                                       (unless (vector-ref visited neighbor)
+                                               (vector-set! visited neighbor #t)
+                                               (hash-set! next-nodes neighbor #t)
+                                               )
+                                       )
+                                  )
+                            )
+                       )
+                  (bfs node-routes visited next-nodes target (add1 dis))
+                  )
+                )
+            )
+        )
+      )
+  )
