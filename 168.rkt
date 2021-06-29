@@ -1,4 +1,4 @@
-(define (convert-to-title columnNumber [first #t])
+(define (convert-to-title columnNumber)
   (if (= columnNumber 0)
       ""
       (let ([columnNumber (sub1 columnNumber)])
