@@ -1,0 +1,15 @@
+(define/contract (max-ice-cream costs coins)
+  (-> (listof exact-integer?) exact-integer? exact-integer?)
+     (sub1 (length 
+            (filter (lambda (n) (<= n coins))
+                    (let prefix-sum ([lst (sort costs <)]
+                                     [sum 0])
+                      (if (null? lst)
+                          (list sum)
+                          (cons sum (prefix-sum (cdr lst) (+ sum (car lst))) )
+                          )
+                      )
+                    )
+                   )
+           )
+  )
